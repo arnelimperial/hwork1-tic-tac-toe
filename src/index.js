@@ -36,7 +36,7 @@ function init() {
 
   for(let i=0;i < cells.length;i++) {
     cells[i].textContent = '';
-    cells[i].style.removeProperty('background-color');
+    //cells[i].style.removeProperty('background-color');
     cells[i].addEventListener('click', turnClick, false);
   }
 }
@@ -85,8 +85,8 @@ function checkWin(board, player) {
 function gameOver(gameWon) {
   for (let index of winPattern[gameWon.index]) {
     document.getElementById(index).style.backgroundColor = 
-    gameWon.player === player1 ? "green" : "blue";
-    //gameWon.player == player1 ? alert("Player 1 won!") : alert("Player 2 won!");
+    //gameWon.player === player1 ? "green" : "blue";
+    gameWon.player === player1 ? alert("Player 1 won!") : alert("Player 2 won!");
 
 	}
 	
@@ -116,10 +116,11 @@ function declareWinner(who) {
 function checkTie() {
   if(emptySquares().length === 0) {
     for(let i=0; i < cells.length; i++){
-      cells[i].style.backgroundColor = "yellow";
+      //cells[i].style.backgroundColor = "yellow";
       cells[i].removeEventListener('click', turnClick, false);
     }
-      declareWinner("It's a draw!");
+      //declareWinner("It's a draw!");
+      alert("It's a draw!")
       return true;
       
   }
