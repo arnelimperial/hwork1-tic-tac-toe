@@ -63,7 +63,7 @@ arr.forEach(function(subArr){
   subArr.forEach(function(elem){
     if(cells[elem].innerHTML === curPlayer){
       counter++;
-      if(counter == 5 ){
+      if(counter === 5 ){
           winner = curPlayer;
           winner == 'O' ? alert('Player 1 won!') : alert('Player 2 won!');
       }

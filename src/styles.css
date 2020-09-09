@@ -1,5 +1,6 @@
 body{
-  height: 500px;
+  height: 600px;
+  width:600px;
 }
 
 
@@ -16,10 +17,12 @@ td  {
 
 table {
   border-collapse: collapse;
-  position: absolute;
-  left: 42%;
-  margin-left: -160px;
-  top: 10%;
+    position: absolute;
+    /* left: 42%;
+    margin-left: -160px; 
+    top: 10%; */
+    height: 100%;
+    width: 100%;;
 }
 
 table tr:first-child td {
