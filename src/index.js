@@ -1,8 +1,16 @@
-import "./styles.css";
+var boardArr = [
+  1,2,3,4,5,6,7,8,9,10,11,12,13,14,
+  15,16,17,18,19,20,21,22,23,24,25
+];
 
-var originalBoard, cells;
+var newArr = [], cells;
 
-const player1 = 'O', player2 = 'X';
+var player1 = "O";
+var player2 = "X";
+cells = Array.from(document.querySelectorAll(".cell"));
+var currentPlayer = player1;
+var winner = "";
+
 
 const winPattern = [
   [0,1,2,3,4],
@@ -19,112 +27,53 @@ const winPattern = [
   [4,8,12,16,20],
 ];
 
-init();
+document.querySelector('#board').style.display = "block";
 
-document.querySelector('.restart').addEventListener('click', init);
+function startClick() {
 
+  let randomChoice = Math.floor(Math.random() * boardArr.length);
+  let selected = boardArr[randomChoice];
+  let index = boardArr.indexOf(selected);
 
-
-function init() {
-  
-  cells = document.querySelectorAll('.cell');
-
-  document.querySelector('.endgame').style.display = "none";
-  document.querySelector('#board').style.display = "block";
-  
-  originalBoard = Array.from(Array(25).keys());
-
-  for(let i=0;i < cells.length;i++) {
-    cells[i].textContent = '';
-    //cells[i].style.removeProperty('background-color');
-    cells[i].addEventListener('click', turnClick, false);
+  if (index > -1) {
+  boardArr.splice(index, 1);
   }
-}
-
-// function turnClick(square) {
-//   if (typeof originalBoard[square.target.id] === 'number') {
-//     turn(square.target.id, player1);
-
-//     if(!checkTie()) turn(bestSpot(), player2)
-//   }
+  newArr.push(selected);
   
-// }
-
-function turnClick(square) {
-	if (typeof originalBoard[square.target.id] === 'number') {
-		turn(square.target.id, player1)
-		if (!checkWin(originalBoard, player1) && !checkTie()) turn(bestSpot(), player2);
-	}
-}
-
-
-
-function turn(squareId, player) {
-  originalBoard[squareId] = player;
-  document.getElementById(squareId).innerText = player;
-
-  let gameWon = checkWin(originalBoard, player);
-  if(gameWon) gameOver(gameWon) 
-}
-
-function checkWin(board, player) {
-  let plays = board.reduce((a,e,i) => 
-    (e === player) ? a.concat(i) : a, []);
-
-  let gameWon = null;
-  for(let [index, win] of winPattern.entries()) {
-    if(win.every(elem => plays.indexOf(elem) > -1)){
-      gameWon = {index: index, player: player};
-      break;
+  try{
+    if (currentPlayer === player1) {
+      document.getElementById(selected).innerHTML = player1;
+      currentPlayer = player2;
+    }else{
+      document.getElementById(selected).innerHTML = player2;
+      currentPlayer = player1;
     }
+    checkWinner(winPattern, currentPlayer);
+  }catch(err){
+    alert("Draw!");
   }
-  return gameWon;
-
-}
-
-function gameOver(gameWon) {
-  for (let index of winPattern[gameWon.index]) {
-    document.getElementById(index).style.backgroundColor = 
-    //gameWon.player === player1 ? "green" : "blue";
-    gameWon.player === player1 ? alert("Player 1 won!") : alert("Player 2 won!");
-
-	}
-	
-	for (var i = 0; i < cells.length; i++) {
-		cells[i].removeEventListener('click', turnClick, false);
-  }
-  
-  declareWinner(gameWon.player  === player1 ? "Player 1 won!" : "Player 2 won!");
-
-}
-
-function emptySquares() {
-  return originalBoard.filter(s => typeof s === 'number')
-}
-
-function bestSpot() {
-  return emptySquares()[0];
 }
 
 
-function declareWinner(who) {
-  document.querySelector('.endgame').style.display = "block";
-  document.querySelector('.endgame .text').textContent = who;
-
-}
-
-function checkTie() {
-  if(emptySquares().length === 0) {
-    for(let i=0; i < cells.length; i++){
-      //cells[i].style.backgroundColor = "yellow";
-      cells[i].removeEventListener('click', turnClick, false);
+function checkWinner(arr, curPlayer){
+arr.forEach(function(subArr){
+  var counter = 0;
+  subArr.forEach(function(elem){
+    if(cells[elem].innerHTML === curPlayer){
+      counter++;
+      if(counter == 5 ){
+          winner = curPlayer;
+          winner == 'O' ? alert('Player 1 won!') : alert('Player 2 won!');
+      }
     }
-      //declareWinner("It's a draw!");
-      alert("It's a draw!")
-      return true;
-      
-  }
-  return false;
+  });
+});
 }
+
+
+
+
+
+
 
 
