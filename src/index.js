@@ -29,6 +29,8 @@ const winPattern = [
 
 document.querySelector('#board').style.display = "block";
 
+document.getElementById('game').addEventListener('click', startClick);
+
 function startClick() {
 
   let randomChoice = Math.floor(Math.random() * boardArr.length);
